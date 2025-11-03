@@ -46,6 +46,12 @@
       padding:34px 48px;
       background: linear-gradient(180deg, rgba(47,0,51,0.98), rgba(46,0,48,0.96));
       box-shadow: 0 12px 40px rgba(0,0,0,0.6), inset 0 2px 18px rgba(255,255,255,0.02);
+      transition: margin 0.4s ease;
+    }
+
+    .card-wrap.spaced {
+      margin-top: 20px;
+      margin-bottom: 20px;
     }
 
     h1{
@@ -184,19 +190,19 @@
 <body>
   <div class="overlay"></div>
 
-  <div class="card-wrap">
+  <div class="card-wrap" id="cardBox">
     <h1>🎵 Rhythm GWA Calculator 🎧</h1>
     <p class="subtitle">Turn your grades into a hit record!</p>
 
     <div class="form-row">
       <div style="flex:1; display:flex; gap:10px;">
         <div class="input-label">First Name</div>
-        <div class="input-wrap"><input id="first_name" placeholder="e.g. Alex" /></div>
+        <div class="input-wrap"><input id="first_name" placeholder="e.g. Matt Sky" /></div>
       </div>
 
       <div style="flex:1; display:flex; gap:10px;">
         <div class="input-label">Last Name</div>
-        <div class="input-wrap"><input id="last_name" placeholder="e.g. Rivera" /></div>
+        <div class="input-wrap"><input id="last_name" placeholder="e.g. Razonable" /></div>
       </div>
     </div>
 
@@ -211,7 +217,7 @@
       <div class="subject"><div class="input-label">PE</div><div class="input-wrap"><input id="pe" placeholder="0 - 100" /></div></div>
     </div>
 
-    <button class="wide-button btn-play" py-click="general_weighted_average"> ▶ Play Calculation</button>
+    <button class="wide-button btn-play" py-click="general_weighted_average" id="playBtn"> ▶ Play Calculation</button>
     <button class="wide-button btn-reset" py-click="reset_form">☑ Reset</button>
 
     <div id="equalizer" style="display:none">
@@ -229,7 +235,14 @@
 
   </div>
 
-    <script type="py" src="main.py"></script>
+  <script>
+    document.getElementById("playBtn").addEventListener("click", () => {
+      const card = document.getElementById("cardBox");
+      card.classList.add("spaced");
+    });
+  </script>
+
+  <script type="py" src="main.py"></script>
 </body>
 </html>
 
