@@ -8,130 +8,145 @@
     <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css">
     <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
     <style>
-        :root {
-            --gold-glow: #ffcc00;
-            --violet-dark: #2c003e;
-            --violet-mid: #5e17eb;
-            --bg-gradient: linear-gradient(135deg, #0f051d, #2c003e);
-        }
-        body {
-            background: var(--bg-gradient);
-            color: #fefefe;
-            font-family: 'Poppins', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .music-card {
-            background: #270042;
-            border-radius: 25px;
-            /* removed yellow glow and replaced with subtle violet shadow */
-            box-shadow: 0 8px 30px rgba(94,23,235,0.18);
-            padding: 40px;
-            width: 95%;
-            max-width: 700px;
-            position: relative;
-            overflow: hidden;
-        }
+    :root {
+        --gold-glow: #ffcc00;
+        --violet-mid: #5e17eb;
+        --main-bg: #270042;
+    }
+    body {
+        background: var(--main-bg);
+        color: #fefefe;
+        font-family: 'Poppins', sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        min-height: 100vh;
+        margin: 0;
+        padding: 80px 20px 40px;
+    }
+    h1 {
+        text-align: center;
+        font-weight: 900;
+        color: var(--gold-glow);
+        text-shadow: 0 0 15px rgba(94,23,235,0.35);
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+    }
+    .subtitle {
+        text-align: center;
+        font-size: 1.3rem;
+        margin-bottom: 40px;
+        color: #c6aefc;
+    }
+    .input-group-text {
+        background-color: var(--violet-mid);
+        border: none;
+        color: #fff;
+    }
+    .form-control {
+        background: #f8f8f8;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+    }
+    .grades-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        width: 90%;
+        max-width: 900px;
+        margin: auto;
+    }
+    .input-group {
+        width: 100%;
+    }
+    button {
+        border-radius: 12px;
+        font-weight: bold;
+        transition: 0.3s;
+        font-size: 1.1rem;
+    }
+    .btn-play {
+        background-color: var(--gold-glow);
+        color: #2c003e;
+        width: 90%;
+        max-width: 900px;
+        padding: 14px;
+        margin-top: 30px;
+    }
+    .btn-play:hover {
+        background-color: #ffdd44;
+        transform: scale(1.03);
+    }
+    .btn-stop {
+        background-color: var(--violet-mid);
+        color: white;
+        width: 90%;
+        max-width: 900px;
+        padding: 12px;
+        margin-top: 15px;
+    }
+    .btn-stop:hover {
+        background-color: #7a3fff;
+    }
+    #equalizer {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        gap: 6px;
+        height: 35px;
+        margin-top: 25px;
+    }
+    .bar {
+        width: 8px;
+        background-color: var(--gold-glow);
+        animation: bounce 1s infinite ease-in-out;
+    }
+    @keyframes bounce {
+        0%, 100% { height: 12px; }
+        50% { height: 35px; }
+    }
+    #student_info, #summary, #output, #quote {
+        margin-top: 25px;
+        text-align: center;
+        animation: fadeIn 0.8s ease;
+        width: 90%;
+        max-width: 900px;
+    }
+    #student_info {
+        font-weight: bold;
+        color: #ffd700;
+    }
+    #output {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: var(--gold-glow);
+    }
+    #summary {
+        font-family: monospace;
+        color: #bfa8ff;
+        font-size: 1rem;
+    }
+    #quote {
+        font-style: italic;
+        color: #c6aefc;
+        font-size: 1rem;
+    }
+    @keyframes fadeIn {
+        from {opacity: 0; transform: translateY(10px);}
+        to {opacity: 1; transform: translateY(0);}
+    }
+    @media (max-width: 768px) {
         h1 {
-            text-align: center;
-            font-weight: 900;
-            color: var(--gold-glow);
-            /* toned down to violet so no yellow halo around the title */
-            text-shadow: 0 0 12px rgba(94,23,235,0.35);
+            font-size: 1.9rem;
         }
         .subtitle {
-            text-align: center;
-            font-size: 1.1rem;
-            margin-bottom: 25px;
-            color: #c6aefc;
+            font-size: 1rem;
         }
-        .input-group-text {
-            background-color: var(--violet-mid);
-            border: none;
-            color: #fff;
-        }
-        .form-control {
-            background: #f8f8f8;
-            border: none;
-            border-radius: 8px;
-        }
-        .grades-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-        button {
-            border-radius: 12px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-        .btn-play {
-            background-color: var(--gold-glow);
-            color: #2c003e;
-            width: 100%;
-            padding: 12px;
-            margin-top: 20px;
-        }
-        .btn-play:hover {
-            background-color: #ffdd44;
-            transform: scale(1.03);
-        }
-        .btn-stop {
-            background-color: #5e17eb;
-            color: white;
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-        }
-        .btn-stop:hover {
-            background-color: #7a3fff;
-        }
-        #equalizer {
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            gap: 6px;
-            height: 30px;
-            margin-top: 20px;
-        }
-        .bar {
-            width: 6px;
-            background-color: var(--gold-glow);
-            animation: bounce 1s infinite ease-in-out;
-        }
-        @keyframes bounce {
-            0%, 100% { height: 10px; }
-            50% { height: 30px; }
-        }
-        #student_info, #summary, #output, #quote {
-            margin-top: 20px;
-            text-align: center;
-            animation: fadeIn 0.8s ease;
-        }
-        #student_info {
-            font-weight: bold;
-            color: #ffd700;
-        }
-        #output {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: var(--gold-glow);
-        }
-        #summary {
-            font-family: monospace;
-            color: #bfa8ff;
-        }
-        #quote {
-            font-style: italic;
-            color: #c6aefc;
-        }
-        @keyframes fadeIn {
-            from {opacity: 0; transform: translateY(10px);}
-            to {opacity: 1; transform: translateY(0);}
-        }
-    </style>
+    }
+</style>
+
 </head>
 <body>
     <div class="music-card">
@@ -177,6 +192,7 @@
     <script type="py" src="main.py"></script>
 </body>
 </html>
+
 
 
 
