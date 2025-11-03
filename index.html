@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Rhythm GWA Calculator</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css">
@@ -23,34 +23,23 @@
             align-items: center;
             min-height: 100vh;
         }
-       .music-card {
-        background: #270042; 
-        border-radius: 25px;
-        box-shadow: 0 0 30px rgba(255, 204, 0, 0.15);
-        padding: 40px;
-        width: 95%;
-        max-width: 700px;
-        position: relative;
-        overflow: hidden;
-        }
-        .music-card::before {
-            content: '';
-            position: absolute;
-            top: -80px; left: -80px;
-            width: 200px; height: 200px;
-            background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
-            opacity: 0.3;
-            animation: spin 10s linear infinite;
-        }
-        @keyframes spin {
-            from {transform: rotate(0);}
-            to {transform: rotate(360deg);}
+        .music-card {
+            background: #270042;
+            border-radius: 25px;
+            /* removed yellow glow and replaced with subtle violet shadow */
+            box-shadow: 0 8px 30px rgba(94,23,235,0.18);
+            padding: 40px;
+            width: 95%;
+            max-width: 700px;
+            position: relative;
+            overflow: hidden;
         }
         h1 {
             text-align: center;
             font-weight: 900;
             color: var(--gold-glow);
-            text-shadow: 0 0 15px rgba(255,204,0,0.4);
+            /* toned down to violet so no yellow halo around the title */
+            text-shadow: 0 0 12px rgba(94,23,235,0.35);
         }
         .subtitle {
             text-align: center;
@@ -188,5 +177,7 @@
     <script type="py" src="main.py"></script>
 </body>
 </html>
+
+
 
 
