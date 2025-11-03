@@ -1,223 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Rhythm GWA Calculator</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css">
-    <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
-    <style>
-    :root {
-        --gold-glow: #ffcc00;
-        --violet-mid: #5e17eb;
-        --main-bg: #270042;
-    }
-    body {
-        background: var(--main-bg);
-        color: #fefefe;
-        font-family: 'Poppins', sans-serif;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        min-height: 100vh;
-        margin: 0;
-        padding: 40px 20px;
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Rhythm GWA Calculator</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css">
+  <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+  <style>
+    :root{
+      --container-purple: #2f0033;
+      --deep-purple: #1e0022;
+      --gold: #f5c232;
+      --gold-dark: #e0ab20;
+      --accent-violet: #6b2bff;
+      --input-bg: rgba(255,255,255,0.98);
+      --muted-text: #d8c7ff;
     }
 
-    h1 {
-        text-align: center;
-        font-weight: 900;
-        color: var(--gold-glow);
-        text-shadow: 0 0 15px rgba(94,23,235,0.35);
-        font-size: 2.5rem;
-        margin-bottom: 10px;
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
     }
 
-    .subtitle {
-        text-align: center;
-        font-size: 1.3rem;
-        margin-bottom: 40px;
-        color: #c6aefc;
+    body{
+      background-image: url('background.jpg');
+      background-size: cover;
+      background-position: center;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:40px;
     }
 
-    .form-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        max-width: 900px;
-        gap: 15px;
+    .card-wrap{
+      position:relative;
+      z-index:1;
+      width:100%;
+      max-width:980px;
+      border-radius:36px;
+      border:4px solid var(--gold);
+      padding:34px 48px;
+      background: linear-gradient(180deg, rgba(47,0,51,0.98), rgba(46,0,48,0.96));
+      box-shadow: 0 12px 40px rgba(0,0,0,0.6), inset 0 2px 18px rgba(255,255,255,0.02);
     }
 
-    .input-group-text {
-        background-color: var(--violet-mid);
-        border: none;
-        color: #fff;
+    h1{
+      text-align:center;
+      color:var(--gold);
+      font-weight:900;
+      font-size:34px;
+      margin-bottom:6px;
+      text-shadow: 0 2px 8px rgba(107,43,255,0.16);
     }
 
-    .form-control {
-        background: #f8f8f8;
-        border: none;
-        border-radius: 8px;
-        font-size: 1rem;
+    .subtitle{
+      text-align:center;
+      color:var(--muted-text);
+      margin-bottom:28px;
+      font-size:15px;
     }
 
-    .grades-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-        gap: 20px;
-        width: 100%;
+    .form-row{
+      display:flex;
+      gap:16px;
+      margin-bottom:18px;
     }
 
-    button {
-        border-radius: 12px;
-        font-weight: bold;
-        transition: 0.3s;
-        font-size: 1.1rem;
+    .input-label {
+      min-width:120px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:9px 12px;
+      background:var(--accent-violet);
+      color:#fff;
+      border-radius:8px 0 0 8px;
+      font-weight:600;
+      box-shadow:none;
+      margin-right:-1px;
     }
 
-    .btn-play, .btn-stop {
-        width: 100%;
-        max-width: 900px;
-        padding: 14px;
+    .input-wrap {
+      flex:1;
+      display:flex;
+      border-radius:0 8px 8px 0;
+      overflow:hidden;
+      align-items:center;
+      background:var(--input-bg);
+      border:none;
     }
 
-    .btn-play {
-        background-color: var(--gold-glow);
-        color: #2c003e;
-        margin-top: 25px;
+    .input-wrap input{
+      border: none;
+      padding:12px 14px;
+      width:100%;
+      font-size:14px;
+      outline:none;
+      background:transparent;
     }
 
-    .btn-play:hover {
-        background-color: #ffdd44;
-        transform: scale(1.03);
+    .grades-grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+      margin:18px 0 24px;
     }
 
-    .btn-stop {
-        background-color: var(--violet-mid);
-        color: white;
-        margin-top: 10px;
+    .subject{
+      display:flex;
+      gap:10px;
     }
 
-    .btn-stop:hover {
-        background-color: #7a3fff;
+    .wide-button{
+      width:100%;
+      padding:14px 20px;
+      border-radius:10px;
+      font-weight:700;
+      font-size:15px;
+      border:none;
     }
 
-    #equalizer {
-        display: flex;
-        justify-content: center;
-        align-items: flex-end;
-        gap: 6px;
-        height: 35px;
-        margin-top: 25px;
+    .btn-play{
+      background: linear-gradient(180deg, var(--gold), var(--gold-dark));
+      color:#230019;
+      box-shadow: 0 10px 24px rgba(245,194,50,0.14), inset 0 -2px 0 rgba(0,0,0,0.08);
     }
 
-    .bar {
-        width: 8px;
-        background-color: var(--gold-glow);
-        animation: bounce 1s infinite ease-in-out;
+    .btn-reset{
+      background: linear-gradient(180deg, var(--accent-violet), #5320e6);
+      color:#fff;
+      margin-top:12px;
+      box-shadow: 0 8px 18px rgba(107,43,255,0.12);
     }
 
-    @keyframes bounce {
-        0%, 100% { height: 12px; }
-        50% { height: 35px; }
+    #equalizer{
+      display:flex;
+      justify-content:center;
+      gap:6px;
+      margin-top:16px;
+      height:34px;
+      align-items:flex-end;
     }
 
-    #student_info, #summary, #output, #quote {
-        margin-top: 25px;
-        text-align: center;
-        animation: fadeIn 0.8s ease;
-        width: 100%;
-        max-width: 900px;
+    .bar{
+      width:10px;
+      background:var(--gold);
+      border-radius:4px;
+      animation: bounce 0.98s infinite ease-in-out;
     }
 
-    #student_info {
-        font-weight: bold;
-        color: #ffd700;
+    .bar:nth-child(1){ animation-delay:0s; }
+    .bar:nth-child(2){ animation-delay:0.12s; }
+    .bar:nth-child(3){ animation-delay:0.22s; }
+    .bar:nth-child(4){ animation-delay:0.34s; }
+    .bar:nth-child(5){ animation-delay:0.46s; }
+
+    @keyframes bounce{
+      0%,100%{height:10px; transform: translateY(0);}
+      50%{height:34px; transform: translateY(-6px);}
     }
 
-    #output {
-        font-size: 1.6rem;
-        font-weight: 800;
-        color: var(--gold-glow);
+    #student_info{ color: #ffe98a; font-weight:800; margin-top:18px; text-align:center; }
+    #summary{ color:#d4c1ff; font-family:monospace; margin-top:8px; white-space:pre-wrap; text-align:center; }
+    #output{ color:var(--gold); font-weight:900; font-size:1.45rem; margin-top:10px; text-align:center;}
+    #quote{ color: #c8b7ff; margin-top:6px; text-align:center; font-style:italic;}
+
+    @media (max-width:880px){
+      .grades-grid{ grid-template-columns: repeat(2,1fr); }
+      .form-row{ flex-direction:column; }
+      .card-wrap{ padding:22px; border-radius:28px; }
     }
 
-    #summary {
-        font-family: monospace;
-        color: #bfa8ff;
-        font-size: 1rem;
-        white-space: pre-wrap;
+    @media (max-width:520px){
+      .grades-grid{ grid-template-columns: 1fr; }
+      h1{ font-size:22px; }
     }
-
-    #quote {
-        font-style: italic;
-        color: #c6aefc;
-        font-size: 1rem;
-    }
-
-    @keyframes fadeIn {
-        from {opacity: 0; transform: translateY(10px);}
-        to {opacity: 1; transform: translateY(0);}
-    }
-
-    @media (max-width: 768px) {
-        h1 {
-            font-size: 1.9rem;
-        }
-        .subtitle {
-            font-size: 1rem;
-        }
-    }
-    </style>
+  </style>
 </head>
-
 <body>
-    <div class="form-container">
-        <h1>🎶 Rhythm GWA Calculator 🎧</h1>
-        <p class="subtitle">Turn your grades into a hit record!</p>
+  <div class="overlay"></div>
 
-        <div class="input-group">
-            <span class="input-group-text">First Name</span>
-            <input type="text" class="form-control" id="first_name" placeholder="e.g. Alex">
-        </div>
+  <div class="card-wrap">
+    <h1>🎵 Rhythm GWA Calculator 🎧</h1>
+    <p class="subtitle">Turn your grades into a hit record!</p>
 
-        <div class="input-group">
-            <span class="input-group-text">Last Name</span>
-            <input type="text" class="form-control" id="last_name" placeholder="e.g. Rivera">
-        </div>
+    <div class="form-row">
+      <div style="flex:1; display:flex; gap:10px;">
+        <div class="input-label">First Name</div>
+        <div class="input-wrap"><input id="first_name" placeholder="e.g. Alex" /></div>
+      </div>
 
-        <h5 class="text-center mt-3 mb-3">🎵 Enter Your Subject Grades 🎵</h5>
-
-        <div class="grades-grid">
-            <div class="input-group"><span class="input-group-text">Science</span><input type="text" class="form-control" id="science"></div>
-            <div class="input-group"><span class="input-group-text">Math</span><input type="text" class="form-control" id="math"></div>
-            <div class="input-group"><span class="input-group-text">English</span><input type="text" class="form-control" id="english"></div>
-            <div class="input-group"><span class="input-group-text">Filipino</span><input type="text" class="form-control" id="filipino"></div>
-            <div class="input-group"><span class="input-group-text">ICT</span><input type="text" class="form-control" id="ict"></div>
-            <div class="input-group"><span class="input-group-text">PE</span><input type="text" class="form-control" id="pe"></div>
-        </div>
-
-        <button class="btn btn-play" py-click="general_weighted_average">▶ Play Calculation</button>
-        <button class="btn btn-stop" py-click="reset_form">⏹ Reset</button>
-
-        <div id="equalizer" style="display: none;">
-            <div class="bar" style="animation-delay: 0s;"></div>
-            <div class="bar" style="animation-delay: 0.1s;"></div>
-            <div class="bar" style="animation-delay: 0.2s;"></div>
-            <div class="bar" style="animation-delay: 0.3s;"></div>
-            <div class="bar" style="animation-delay: 0.4s;"></div>
-        </div>
-
-        <div id="student_info"></div>
-        <pre id="summary"></pre>
-        <div id="output"></div>
-        <p id="quote"></p>
+      <div style="flex:1; display:flex; gap:10px;">
+        <div class="input-label">Last Name</div>
+        <div class="input-wrap"><input id="last_name" placeholder="e.g. Rivera" /></div>
+      </div>
     </div>
 
-    <script type="py" src="main.py"></script>
+    <div style="text-align:center; color:var(--muted-text); margin-bottom:14px;">🎶 Enter Your Subject Grades 🎶</div>
+
+    <div class="grades-grid">
+      <div class="subject"><div class="input-label">Science</div><div class="input-wrap"><input id="science" placeholder="0 - 100" /></div></div>
+      <div class="subject"><div class="input-label">Math</div><div class="input-wrap"><input id="math" placeholder="0 - 100" /></div></div>
+      <div class="subject"><div class="input-label">English</div><div class="input-wrap"><input id="english" placeholder="0 - 100" /></div></div>
+      <div class="subject"><div class="input-label">Filipino</div><div class="input-wrap"><input id="filipino" placeholder="0 - 100" /></div></div>
+      <div class="subject"><div class="input-label">ICT</div><div class="input-wrap"><input id="ict" placeholder="0 - 100" /></div></div>
+      <div class="subject"><div class="input-label">PE</div><div class="input-wrap"><input id="pe" placeholder="0 - 100" /></div></div>
+    </div>
+
+    <button class="wide-button btn-play" py-click="general_weighted_average"> ▶ Play Calculation</button>
+    <button class="wide-button btn-reset" py-click="reset_form">☑ Reset</button>
+
+    <div id="equalizer" style="display:none">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </div>
+
+    <div id="student_info"></div>
+    <pre id="summary"></pre>
+    <div id="output"></div>
+    <div id="quote"></div>
+
+  </div>
+
 </body>
 </html>
-
 
