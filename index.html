@@ -21,7 +21,7 @@
     html,body{
       height:100%;
       margin:0;
-      font-family: 'Poppins', system-ui;
+      font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
     }
@@ -31,16 +31,9 @@
       background-size: cover;
       background-position: center;
       display:flex;
-      flex-direction:column;
       align-items:center;
       justify-content:center;
       padding:40px;
-      transition: all 0.5s ease;
-    }
-
-    .spacer {
-      height: 0;
-      transition: height 0.5s ease;
     }
 
     .card-wrap{
@@ -52,8 +45,7 @@
       border:4px solid var(--gold);
       padding:34px 48px;
       background: linear-gradient(180deg, rgba(47,0,51,0.98), rgba(46,0,48,0.96));
-      box-shadow: 0 12px 40px rgba(0,0,0,0.6);
-      transition: all 0.4s ease;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.6), inset 0 2px 18px rgba(255,255,255,0.02);
     }
 
     h1{
@@ -62,6 +54,7 @@
       font-weight:900;
       font-size:34px;
       margin-bottom:6px;
+      text-shadow: 0 2px 8px rgba(107,43,255,0.16);
     }
 
     .subtitle{
@@ -87,6 +80,7 @@
       color:#fff;
       border-radius:8px 0 0 8px;
       font-weight:600;
+      box-shadow:none;
       margin-right:-1px;
     }
 
@@ -101,7 +95,7 @@
     }
 
     .input-wrap input{
-      border:none;
+      border: none;
       padding:12px 14px;
       width:100%;
       font-size:14px;
@@ -133,12 +127,14 @@
     .btn-play{
       background: linear-gradient(180deg, var(--gold), var(--gold-dark));
       color:#230019;
+      box-shadow: 0 10px 24px rgba(245,194,50,0.14), inset 0 -2px 0 rgba(0,0,0,0.08);
     }
 
     .btn-reset{
       background: linear-gradient(180deg, var(--accent-violet), #5320e6);
       color:#fff;
       margin-top:12px;
+      box-shadow: 0 8px 18px rgba(107,43,255,0.12);
     }
 
     #equalizer{
@@ -164,21 +160,31 @@
     .bar:nth-child(5){ animation-delay:0.46s; }
 
     @keyframes bounce{
-      0%,100%{height:10px;}
-      50%{height:34px;}
+      0%,100%{height:10px; transform: translateY(0);}
+      50%{height:34px; transform: translateY(-6px);}
     }
 
-    #student_info{ color:#ffe98a; font-weight:800; margin-top:18px; text-align:center; }
+    #student_info{ color: #ffe98a; font-weight:800; margin-top:18px; text-align:center; }
     #summary{ color:#d4c1ff; font-family:monospace; margin-top:8px; white-space:pre-wrap; text-align:center; }
     #output{ color:var(--gold); font-weight:900; font-size:1.45rem; margin-top:10px; text-align:center;}
-    #quote{ color:#c8b7ff; margin-top:6px; text-align:center; font-style:italic;}
+    #quote{ color: #c8b7ff; margin-top:6px; text-align:center; font-style:italic;}
+
+    @media (max-width:880px){
+      .grades-grid{ grid-template-columns: repeat(2,1fr); }
+      .form-row{ flex-direction:column; }
+      .card-wrap{ padding:22px; border-radius:28px; }
+    }
+
+    @media (max-width:520px){
+      .grades-grid{ grid-template-columns: 1fr; }
+      h1{ font-size:22px; }
+    }
   </style>
 </head>
 <body>
-  <!-- Spacer above -->
-  <div class="spacer" id="topSpace"></div>
+  <div class="overlay"></div>
 
-  <div class="card-wrap" id="cardBox">
+  <div class="card-wrap">
     <h1>🎵 Rhythm GWA Calculator 🎧</h1>
     <p class="subtitle">Turn your grades into a hit record!</p>
 
@@ -187,6 +193,7 @@
         <div class="input-label">First Name</div>
         <div class="input-wrap"><input id="first_name" placeholder="e.g. Matt Sky" /></div>
       </div>
+
       <div style="flex:1; display:flex; gap:10px;">
         <div class="input-label">Last Name</div>
         <div class="input-wrap"><input id="last_name" placeholder="e.g. Razonable" /></div>
@@ -204,7 +211,7 @@
       <div class="subject"><div class="input-label">PE</div><div class="input-wrap"><input id="pe" placeholder="0 - 100" /></div></div>
     </div>
 
-    <button class="wide-button btn-play" py-click="general_weighted_average" id="playBtn">▶ Play Calculation</button>
+    <button class="wide-button btn-play" py-click="general_weighted_average"> ▶ Play Calculation</button>
     <button class="wide-button btn-reset" py-click="reset_form">☑ Reset</button>
 
     <div id="equalizer" style="display:none">
@@ -219,17 +226,9 @@
     <pre id="summary"></pre>
     <div id="output"></div>
     <div id="quote"></div>
+
   </div>
 
-  <div class="spacer" id="bottomSpace"></div>
-
-  <script>
-    document.getElementById("playBtn").addEventListener("click", () => {
-      document.getElementById("topSpace").style.height = "60px";
-      document.getElementById("bottomSpace").style.height = "60px";
-    });
-  </script>
-
-  <script type="py" src="main.py"></script>
+    <script type="py" src="main.py"></script>
 </body>
 </html>
