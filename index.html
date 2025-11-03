@@ -3,61 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GWA Calculator Deluxe</title>
+    <title>Rhythm GWA Calculator</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css">
     <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
     <style>
         :root {
-            --maroon-dark: #800000;
-            --maroon-medium: #a00000;
-            --gold-accent: #ffd700;
-            --soft-bg: #f9f0f0;
+            --violet-dark: #2c003e;
+            --violet-mid: #5e17eb;
+            --gold-glow: #ffcc00;
+            --bg-gradient: linear-gradient(135deg, #0f051d, #2c003e);
         }
         body {
-            background: linear-gradient(135deg, #fceaea, #f5e6e6);
+            background: var(--bg-gradient);
+            color: #fefefe;
             font-family: 'Poppins', sans-serif;
-            color: var(--maroon-dark);
-            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            min-height: 100vh;
         }
-        .calculator-container {
-            background: white;
-            border-radius: 20px;
+        .music-card {
+            background: rgba(40, 0, 70, 0.85);
+            border-radius: 25px;
+            box-shadow: 0 0 30px rgba(255, 204, 0, 0.15);
             padding: 40px;
-            box-shadow: 0 10px 25px rgba(128, 0, 0, 0.2);
             width: 95%;
-            max-width: 650px;
-            transition: transform 0.3s ease;
+            max-width: 700px;
+            position: relative;
+            overflow: hidden;
         }
-        .calculator-container:hover {
-            transform: scale(1.01);
+        .music-card::before {
+            content: '';
+            position: absolute;
+            top: -80px; left: -80px;
+            width: 200px; height: 200px;
+            background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
+            opacity: 0.3;
+            animation: spin 10s linear infinite;
+        }
+        @keyframes spin {
+            from {transform: rotate(0);}
+            to {transform: rotate(360deg);}
         }
         h1 {
-            color: var(--maroon-dark);
             text-align: center;
-            font-weight: 800;
-            margin-bottom: 10px;
+            font-weight: 900;
+            color: var(--gold-glow);
+            text-shadow: 0 0 15px rgba(255,204,0,0.4);
         }
         .subtitle {
             text-align: center;
             font-size: 1.1rem;
-            color: var(--maroon-medium);
-            margin-bottom: 30px;
+            margin-bottom: 25px;
+            color: #c6aefc;
         }
         .input-group-text {
-            background-color: var(--maroon-dark);
-            color: white;
+            background-color: var(--violet-mid);
             border: none;
-            min-width: 100px;
+            color: #fff;
         }
         .form-control {
-            border: 1px solid var(--maroon-medium);
-        }
-        .form-control:focus {
-            box-shadow: 0 0 0 0.25rem rgba(128, 0, 0, 0.25);
+            background: #f8f8f8;
+            border: none;
+            border-radius: 8px;
         }
         .grades-grid {
             display: grid;
@@ -65,109 +74,110 @@
             gap: 15px;
         }
         button {
-            border-radius: 10px;
+            border-radius: 12px;
             font-weight: bold;
+            transition: 0.3s;
         }
-        .btn-calc {
-            background-color: var(--maroon-dark);
-            color: white;
+        .btn-play {
+            background-color: var(--gold-glow);
+            color: #2c003e;
             width: 100%;
             padding: 12px;
             margin-top: 20px;
         }
-        .btn-calc:hover {
-            background-color: var(--maroon-medium);
+        .btn-play:hover {
+            background-color: #ffdd44;
+            transform: scale(1.03);
         }
-        .btn-reset {
-            background-color: #ccc;
-            color: black;
+        .btn-stop {
+            background-color: #5e17eb;
+            color: white;
             width: 100%;
             padding: 10px;
             margin-top: 10px;
         }
-        #student_info, #output {
+        .btn-stop:hover {
+            background-color: #7a3fff;
+        }
+        #equalizer {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 6px;
+            height: 30px;
+            margin-top: 20px;
+        }
+        .bar {
+            width: 6px;
+            background-color: var(--gold-glow);
+            animation: bounce 1s infinite ease-in-out;
+        }
+        @keyframes bounce {
+            0%, 100% { height: 10px; }
+            50% { height: 30px; }
+        }
+        #student_info, #summary, #output, #quote {
+            margin-top: 20px;
+            text-align: center;
             animation: fadeIn 0.8s ease;
         }
         #student_info {
             font-weight: bold;
-            padding: 15px;
-            background-color: #f9e6e6;
-            border-left: 5px solid var(--maroon-dark);
-            border-radius: 8px;
-            margin-top: 25px;
-        }
-        #summary {
-            background-color: var(--soft-bg);
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            font-family: monospace;
+            color: #ffd700;
         }
         #output {
-            text-align: center;
+            font-size: 1.4rem;
             font-weight: 800;
-            margin-top: 20px;
-            background-color: rgba(255, 215, 0, 0.25);
-            border-radius: 10px;
-            padding: 15px;
+            color: var(--gold-glow);
+        }
+        #summary {
+            font-family: monospace;
+            color: #bfa8ff;
         }
         #quote {
-            text-align: center;
             font-style: italic;
-            margin-top: 10px;
-            color: var(--maroon-medium);
+            color: #c6aefc;
         }
         @keyframes fadeIn {
-            from {opacity: 0; transform: translateY(20px);}
+            from {opacity: 0; transform: translateY(10px);}
             to {opacity: 1; transform: translateY(0);}
         }
     </style>
 </head>
 <body>
-    <div class="calculator-container">
-        <h1>GWA Calculator Deluxe</h1>
-        <p class="subtitle">Check your grades in style ✨</p>
+    <div class="music-card">
+        <h1>🎶 Rhythm GWA Calculator 🎧</h1>
+        <p class="subtitle">Turn your grades into a hit record!</p>
 
         <div class="input-group mb-3">
             <span class="input-group-text">First Name</span>
-            <input type="text" class="form-control" id="first_name" placeholder="Enter first name">
+            <input type="text" class="form-control" id="first_name" placeholder="e.g. Alex">
         </div>
         <div class="input-group mb-3">
             <span class="input-group-text">Last Name</span>
-            <input type="text" class="form-control" id="last_name" placeholder="Enter last name">
+            <input type="text" class="form-control" id="last_name" placeholder="e.g. Rivera">
         </div>
 
-        <h5 class="text-center text-maroon mt-4 mb-2">Enter your subject grades</h5>
-
+        <h5 class="text-center mb-3">🎵 Enter Your Subject Grades 🎵</h5>
         <div class="grades-grid">
-            <div class="input-group">
-                <span class="input-group-text">Science</span>
-                <input type="text" class="form-control" id="science" placeholder="e.g. 90">
-            </div>
-            <div class="input-group">
-                <span class="input-group-text">Math</span>
-                <input type="text" class="form-control" id="math" placeholder="e.g. 92">
-            </div>
-            <div class="input-group">
-                <span class="input-group-text">English</span>
-                <input type="text" class="form-control" id="english" placeholder="e.g. 88">
-            </div>
-            <div class="input-group">
-                <span class="input-group-text">Filipino</span>
-                <input type="text" class="form-control" id="filipino" placeholder="e.g. 91">
-            </div>
-            <div class="input-group">
-                <span class="input-group-text">ICT</span>
-                <input type="text" class="form-control" id="ict" placeholder="e.g. 95">
-            </div>
-            <div class="input-group">
-                <span class="input-group-text">PE</span>
-                <input type="text" class="form-control" id="pe" placeholder="e.g. 97">
-            </div>
+            <div class="input-group"><span class="input-group-text">Science</span><input type="text" class="form-control" id="science"></div>
+            <div class="input-group"><span class="input-group-text">Math</span><input type="text" class="form-control" id="math"></div>
+            <div class="input-group"><span class="input-group-text">English</span><input type="text" class="form-control" id="english"></div>
+            <div class="input-group"><span class="input-group-text">Filipino</span><input type="text" class="form-control" id="filipino"></div>
+            <div class="input-group"><span class="input-group-text">ICT</span><input type="text" class="form-control" id="ict"></div>
+            <div class="input-group"><span class="input-group-text">PE</span><input type="text" class="form-control" id="pe"></div>
         </div>
 
-        <button class="btn btn-calc" type="submit" py-click="general_weighted_average">Calculate GWA</button>
-        <button class="btn btn-reset" type="button" py-click="reset_form">Reset Form</button>
+        <button class="btn btn-play" py-click="general_weighted_average">▶ Play Calculation</button>
+        <button class="btn btn-stop" py-click="reset_form">⏹ Reset</button>
+
+        <div id="equalizer" style="display: none;">
+            <div class="bar" style="animation-delay: 0s;"></div>
+            <div class="bar" style="animation-delay: 0.1s;"></div>
+            <div class="bar" style="animation-delay: 0.2s;"></div>
+            <div class="bar" style="animation-delay: 0.3s;"></div>
+            <div class="bar" style="animation-delay: 0.4s;"></div>
+        </div>
 
         <div id="student_info"></div>
         <pre id="summary"></pre>
@@ -175,7 +185,6 @@
         <p id="quote"></p>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script type="py" src="main.py"></script>
 </body>
 </html>
