@@ -46,12 +46,7 @@
       padding:34px 48px;
       background: linear-gradient(180deg, rgba(47,0,51,0.98), rgba(46,0,48,0.96));
       box-shadow: 0 12px 40px rgba(0,0,0,0.6), inset 0 2px 18px rgba(255,255,255,0.02);
-      transition: margin 0.4s ease;
-    }
-
-    .card-wrap.spaced {
-      margin-top: 20px;
-      margin-bottom: 20px;
+      transition: padding 0.4s ease;
     }
 
     h1{
@@ -238,11 +233,11 @@
   <script>
     document.getElementById("playBtn").addEventListener("click", () => {
       const card = document.getElementById("cardBox");
-      card.classList.add("spaced");
+      card.style.paddingTop = "60px";
+      card.style.paddingBottom = "60px";
     });
   </script>
 
   <script type="py" src="main.py"></script>
 </body>
 </html>
-
