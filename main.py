@@ -1,36 +1,43 @@
 from pyscript import display, document
-import random
+import random, asyncio
 
-def general_weighted_average(e):
-    for element in ['student_info', 'summary', 'output', 'quote']:
-        document.getElementById(element).innerHTML = ''
+async def general_weighted_average(e):
+    eq = document.getElementById("equalizer")
+    eq.style.display = "flex"
+
+    for el in ['student_info', 'summary', 'output', 'quote']:
+        document.getElementById(el).innerHTML = ''
+
+    await asyncio.sleep(1.5) 
 
     first_name = document.getElementById('first_name').value.strip()
     last_name = document.getElementById('last_name').value.strip()
 
     subjects = ['Science', 'Math', 'English', 'Filipino', 'ICT', 'PE']
+    ids = ['science', 'math', 'english', 'filipino', 'ict', 'pe']
     grades = []
-    for sub in ['science', 'math', 'english', 'filipino', 'ict', 'pe']:
+
+    for sub in ids:
         try:
             g = float(document.getElementById(sub).value)
             grades.append(g)
         except:
-            display("Please fill in all grades correctly!", target="output")
+            display("⚠️ Please fill in all grades correctly!", target="output")
+            eq.style.display = "none"
             return
 
     weights = [5, 4, 3, 2, 3, 1]
-    weighted_sum = sum(g * w for g, w in zip(grades, weights))
-    gwa = weighted_sum / sum(weights)
+    gwa = sum(g * w for g, w in zip(grades, weights)) / sum(weights)
 
-    info = f"Name: {first_name} {last_name}"
-    summary = "\n".join([f"{sub}: {gr:.0f}" for sub, gr in zip(subjects, grades)])
-    result = f"Your general weighted average is {gwa:.2f}"
+    info = f"🎤 Student: {first_name} {last_name}"
+    summary = "\n".join([f"{s}: {g:.0f}" for s, g in zip(subjects, grades)])
+    result = f"🎶 Your GWA is {gwa:.2f} 🎵"
 
     quotes = [
-        "Keep aiming higher! 🌟",
-        "Hard work pays off — stay consistent! 💪",
-        "You're doing great — keep learning! 📘",
-        "Success is built one grade at a time! 🏆"
+        "You're hitting all the right notes! 🎼",
+        "Keep your rhythm steady — success is in tune! 🎷",
+        "Encore! You’re doing great! 🎺",
+        "Your hard work is pure harmony. 🎻"
     ]
 
     display(info, target="student_info")
@@ -38,8 +45,12 @@ def general_weighted_average(e):
     display(result, target="output")
     display(random.choice(quotes), target="quote")
 
+    await asyncio.sleep(2)
+    eq.style.display = "none"
+
 def reset_form(e):
     for field in ['first_name', 'last_name', 'science', 'math', 'english', 'filipino', 'ict', 'pe']:
         document.getElementById(field).value = ''
-    for element in ['student_info', 'summary', 'output', 'quote']:
-        document.getElementById(element).innerHTML = ''
+    for el in ['student_info', 'summary', 'output', 'quote']:
+        document.getElementById(el).innerHTML = ''
+    document.getElementById("equalizer").style.display = "none"
