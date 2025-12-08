@@ -8,6 +8,10 @@
   <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css">
   <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
   <style>
+
+    /* :root defines global CSS variables (like colors) that can be reused throughout the page. 
+    This makes styling consistent and easy to update in one place. */
+
     :root{
       --container-purple: #2f0033;
       --deep-purple: #1e0022;
@@ -137,6 +141,7 @@
       box-shadow: 0 8px 18px rgba(107,43,255,0.12);
     }
 
+   /* Equalizer shows animated bars while GWA is being calculated, giving the user visual feedback that the calculation is in progress */
     #equalizer{
       display:flex;
       justify-content:center;
@@ -145,7 +150,7 @@
       height:34px;
       align-items:flex-end;
     }
-
+    
     .bar{
       width:10px;
       background:var(--gold);
@@ -153,12 +158,14 @@
       animation: bounce 0.98s infinite ease-in-out;
     }
 
+    /* Animation delay for each bar to create wave effect */
     .bar:nth-child(1){ animation-delay:0s; }
     .bar:nth-child(2){ animation-delay:0.12s; }
     .bar:nth-child(3){ animation-delay:0.22s; }
     .bar:nth-child(4){ animation-delay:0.34s; }
     .bar:nth-child(5){ animation-delay:0.46s; }
 
+    /* Keyframes define the bounce animation: bars grow taller in the middle of the cycle and shrink at the start/end to create a wave effect  */
     @keyframes bounce{
       0%,100%{height:10px; transform: translateY(0);}
       50%{height:34px; transform: translateY(-6px);}
@@ -169,6 +176,7 @@
     #output{ color:var(--gold); font-weight:900; font-size:1.45rem; margin-top:10px; text-align:center;}
     #quote{ color: #c8b7ff; margin-top:6px; text-align:center; font-style:italic;}
 
+         /* Media queries adjust the layout for different screen sizes to ensure the page looks good on tablets, phones, and desktops */
     @media (max-width:880px){
       .grades-grid{ grid-template-columns: repeat(2,1fr); }
       .form-row{ flex-direction:column; }
@@ -232,3 +240,4 @@
     <script type="py" src="main.py"></script>
 </body>
 </html>
+
