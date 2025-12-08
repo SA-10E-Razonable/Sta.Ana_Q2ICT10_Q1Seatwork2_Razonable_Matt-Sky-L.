@@ -2,12 +2,14 @@ from pyscript import display, document
 import random, asyncio
 
 async def general_weighted_average(e):
+     # Display the equalizer animation while calculation is in progress
     eq = document.getElementById("equalizer")
     eq.style.display = "flex"
 
     for el in ['student_info', 'summary', 'output', 'quote']:
         document.getElementById(el).innerHTML = ''
 
+    # Introduce a brief delay to allow the equalizer animation to be visible
     await asyncio.sleep(1.5) 
 
     first_name = document.getElementById('first_name').value.strip()
@@ -45,6 +47,7 @@ async def general_weighted_average(e):
     display(result, target="output")
     display(random.choice(quotes), target="quote")
 
+    # Maintain the equalizer animation for 2 seconds before hiding it
     await asyncio.sleep(2)
     eq.style.display = "none"
 
@@ -53,4 +56,7 @@ def reset_form(e):
         document.getElementById(field).value = ''
     for el in ['student_info', 'summary', 'output', 'quote']:
         document.getElementById(el).innerHTML = ''
+        
+    # Hide the equalizer animation 
     document.getElementById("equalizer").style.display = "none"
+
